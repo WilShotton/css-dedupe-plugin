@@ -3,39 +3,41 @@ var cssnano = require('cssnano')
 var Rx = require('rx')
 
 
-function DeDeupeCSSPlugin(options) {
+function CSSDedupePlugin() {}
 
-    this.options = options
-}
-
-DeDeupeCSSPlugin.prototype.apply = function(compiler) {
-
-    var options = this.options
+CSSDedupePlugin.prototype.apply = function(compiler) {
 
     compiler.plugin('emit', function(compilation, callback) {
 
-        var files = _.filter(compilation.assets, function(value, key) {
+        var files = _(compilation.assets)
+            .map(function(value, key) {
 
-            return key.match(/.css$/)
-        })
+                return {
+                    name: key,
+                    value: value
+                }
+            })
+            .filter(function(file) {
+
+                return file.name.match(/.css$/)
+            })
+            .value()
 
         Rx.Observable.just(files)
             .flatMap(_.identity)
-            .map(function(file) {
+            .flatMap(function(file) {
 
-                return _(file.children)
+                var rawStyles = _(file.value.children)
                     .pluck('_value')
                     .filter(Boolean)
                     .value()
                     .join(' ')
-            })
-            .flatMap(function(rawStyles) {
 
                 return Rx.Observable
                     .fromPromise(cssnano.process(rawStyles, {safe: true, sourcemap: true}))
                     .map(function(result) {
 
-                        compilation.assets[options.target] = {
+                        compilation.assets[file.name] = {
 
                             source: function() {
                                 return result.css
@@ -55,4 +57,4 @@ DeDeupeCSSPlugin.prototype.apply = function(compiler) {
     })
 }
 
-module.exports = DeDeupeCSSPlugin
+module.exports = CSSDedupePlugin

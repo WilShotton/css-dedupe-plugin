@@ -1,0 +1,54 @@
+
+@import "./button-mixin";
+
+//@import "./button";
+
+@mixin foo() {
+
+    h2 {
+        margin: 0 auto;
+        margin: 0 auto
+    }
+
+    h2 {
+        margin: 0 auto
+    }
+}
+
+.app {
+
+    @include render-button((
+        red: (
+                my-color: red
+        ),
+        green: (
+                my-color: green
+        ),
+        blue: (
+                my-color: blue
+        )
+    ));
+
+    @include render-button((
+        red: (
+                my-color: red
+        ),
+        green: (
+                my-color: green
+        ),
+        blue: (
+                my-color: blue
+        )
+    ));
+}
+
+h1 {
+    margin: 0 auto;
+    margin: 0 auto
+}
+
+h1 {
+    margin: 0 auto
+}
+
+@include foo()
