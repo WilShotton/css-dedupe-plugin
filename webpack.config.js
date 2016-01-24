@@ -1,12 +1,9 @@
 
+var CSSDedupePlugin = require('./index')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlPlugin = require('html-webpack-plugin')
 var path = require('path')
 var webpack = require('webpack')
-
-var DeDupeCSSPlugin = require('./dedupe-css-plugin')
-
-//var cl = require('concat-loader')
 
 
 var ROOT_PATH = path.resolve(__dirname)
@@ -19,12 +16,12 @@ var extractCSS = new ExtractTextPlugin('styles.css', {
     allChunks: true
 })
 
-var deDupeCSSPlugin = new DeDupeCSSPlugin({target: 'styles.css'})
+var cssDedupePlugin = new CSSDedupePlugin()
 
 module.exports = {
 
     entry: [
-        path.resolve(ROOT_PATH, 'src/main.jsx')
+        path.resolve(ROOT_PATH, 'fixture/main.jsx')
     ],
 
     output: {
@@ -35,18 +32,12 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.di$/,
-                loader: 'context-loader'
-            }, {
                 test: /\.html$/,
                 loader: 'html-loader'
             }, {
-                test: /\.json$/,
-                loader: 'json-loader'
-            }, {
                 test: /\.jsx$/,
                 loader: 'babel-loader',
-                include: path.resolve(ROOT_PATH, 'src'),
+                include: path.resolve(ROOT_PATH, 'fixture'),
                 query: {
                     cacheDirectory: true,
                     presets: ['es2015', 'react'],
@@ -68,23 +59,7 @@ module.exports = {
         require('postcss-discard-duplicates')
     ],
 
-    plugins: [htmlPlugin, extractCSS, deDupeCSSPlugin],
+    plugins: [htmlPlugin, extractCSS, cssDedupePlugin],
 
-    devtool: 'source-map',
-
-    devServer: {
-        colors: true,
-        contentBase: './build',
-        https: false,
-        host: '0.0.0.0',
-        port: 8888,
-        filename: 'main.js',
-        hot: false,
-        progress: true,
-        stats: {
-            cached: false,
-            cachedAssets:false,
-            colors: true
-        }
-    }
+    devtool: 'source-map'
 }

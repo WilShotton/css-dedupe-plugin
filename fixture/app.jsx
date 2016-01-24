@@ -1,21 +1,11 @@
 import React from 'react'
 import Button from './button.jsx'
-import OrangeButton from './orange-button.jsx'
-//
-//import './button.scss'
-//import './styles.scss'
-//
-//<Button>Default btn</Button>
-//<OrangeButton>Orange btn</OrangeButton>
+import './styles.scss'
 
-//import './a.scss'
-//import './b.scss'
 
 export default () => (
 
-    <div className="app a">
-
-
-
+    <div className="app">
+        <Button>My Button</Button>
     </div>
 )

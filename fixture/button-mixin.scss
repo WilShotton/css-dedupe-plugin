@@ -1,21 +1,13 @@
 
-@at-root {
-
-    .cui-button {
-        padding: 6px;
-        color: #ff0000;
-    }
-}
-
 @mixin render-button($map:()) {
 
     // Core
-    //@at-root {
-    //    .cui-button {
-    //        padding: 6px;
-    //        color: #ff0000;
-    //    }
-    //}
+    @at-root {
+        .cui-button {
+            padding: 6px;
+            color: #ff0000;
+        }
+    }
 
     // Overrides
     .cui-button {
