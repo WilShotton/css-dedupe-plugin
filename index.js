@@ -34,7 +34,7 @@ CSSDedupePlugin.prototype.apply = function(compiler) {
                     .join(' ')
 
                 return Rx.Observable
-                    .fromPromise(cssnano.process(rawStyles, {safe: true, sourcemap: true}))
+                    .fromPromise(cssnano.process(rawStyles, {safe: true}))
                     .map(function(result) {
 
                         compilation.assets[file.name] = {
